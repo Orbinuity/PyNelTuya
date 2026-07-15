@@ -137,7 +137,7 @@ class Device1D(Device):
         Set a specific tile to a RGB color.
 
         Args:
-            tile_index (int): The tile you want to use (1-max_tiles)
+            tile_index (int): The tile you want to use. (1-max_tiles)
             r (int): The red value.
             g (int): The green value.
             b (int): The blue value.
@@ -176,7 +176,7 @@ class Device1D(Device):
         Use the device's white mode and set the brightness.
 
         Args:
-            brightness (int): How intense to set the white (0-100)
+            brightness (int): How intense to set the white. (0-100)
         """
         self.mode("white")
         self.send_tuya(22, brightness*10)
