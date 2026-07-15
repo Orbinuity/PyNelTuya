@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "PyNelTuya"
-version = "1.0"
+version = "1.0.1"
 authors = [
     { name="Orbinuity", email="orbinuity@ratgers.nl" },
 ]
@@ -17,10 +17,11 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 requires-python = ">=3.7"
+dependencies = [
+    "tinytuya"
+]
 
 [project.urls]
-"Homepage" = "https://orbinuity.nl/project#pyneltuya"
-"Source Code" = "https://github.com/orbinuity/pyneltuya"
-
-[tool.setuptools]
-packages = ["pyneltuya"]
+Donate = "https://www.patreon.com/cw/Orbinuity"
+Homepage = "https://orbinuity.nl/project#pyneltuya"
+Source = "https://github.com/orbinuity/pyneltuya"
