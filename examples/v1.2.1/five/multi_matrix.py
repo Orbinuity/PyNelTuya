@@ -1,7 +1,8 @@
 from pyneltuya.five import devices, matrices
 from time import sleep
 
-matrix1 = matrices.MultiMatrix([devices.Device1D("bf447b413b8dbafd67wv2m", "192.168.1.124", "?V4pd.11Gi)[.NmI", 12), devices.Device1D("bf20f2e7e3946d6926rwka", "192.168.1.142", "NN|'a#jFV;i<BzSA", 12)], [
+matrix1 = matrices.MultiMatrix([devices.Device1D("YOUR_DEVICES_ID", "YOUR_DEVICES_IP", "YOUR_DEVICES_LOCAL_KEY", 12), devices.Device1D("YOUR_DEVICES_ID", "YOUR_DEVICES_IP", "YOUR_DEVICES_LOCAL_KEY", 12)], [ # Replace 12 with your actualy device's max
+    [None, (1, 9), (0, 9), None],
     [(1, 7), (1, 8), (0, 8), (0, 7)],
     [(1, 6), (1, 5), (0, 5), (0, 6)],
     [(1, 3), (1, 4), (0, 4), (0, 3)],
@@ -13,7 +14,7 @@ matrix1.device(1).connect()
 matrix1.device(0).on()
 matrix1.device(1).on()
 
-matrix1.show_image("images.jpeg")
+matrix1.show_image("images.jpeg") # Replace images.jpeg with your actualy image pat
 
 sleep(4)
 
