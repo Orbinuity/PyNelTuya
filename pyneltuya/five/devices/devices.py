@@ -5,6 +5,11 @@ import tinytuya
 import colorsys
 import base64
 
+def _RGB_to_HSV(r:int, g:int, b:int):
+    GAMMA_TABLE = [int(((i / 255.0) ** 2.2) * 255 + 0.5) for i in range(256)]
+    h, s, v = colorsys.rgb_to_hsv(GAMMA_TABLE[r] / 255.0, GAMMA_TABLE[g] / 255.0, GAMMA_TABLE[b] / 255.0)
+    return int(h * 360), int(s * 1000), int(v * 1000)
+
 class Device(ABC):
     def __init__(self, device_id:str, address:str, local_key:str):
         """
@@ -100,6 +105,8 @@ class Device1D(Device):
         """
         super().__init__(device_id, address, local_key)
         self._max_tiles = max_tiles
+    
+
 
     def RGB_fill(self, r:int, g:int, b:int):
         """
@@ -111,10 +118,7 @@ class Device1D(Device):
             b (int): The blue value.
         """
         self.mode("colour")
-        h, s, v = colorsys.rgb_to_hsv(r / 255.0, g / 255.0, b / 255.0)
-        tuya_h = int(h * 360)
-        tuya_s = int(s * 1000)
-        tuya_v = int(v * 1000)
+        h, s, v = _RGB_to_HSV(r, g, b)
 
         payload = bytearray()
         payload.append(0x00)
@@ -122,12 +126,12 @@ class Device1D(Device):
         payload.append((self._max_tiles >> 8) & 0xFF)
         payload.append(self._max_tiles & 0xFF)
         payload.append(0x00)
-        payload.append((tuya_h >> 8) & 0xFF)
-        payload.append(tuya_h & 0xFF)
-        payload.append((tuya_s >> 8) & 0xFF)
-        payload.append(tuya_s & 0xFF)
-        payload.append((tuya_v >> 8) & 0xFF)
-        payload.append(tuya_v & 0xFF)
+        payload.append((h >> 8) & 0xFF)
+        payload.append(h & 0xFF)
+        payload.append((s >> 8) & 0xFF)
+        payload.append(s & 0xFF)
+        payload.append((v >> 8) & 0xFF)
+        payload.append(v & 0xFF)
 
         b64_payload = base64.b64encode(payload).decode('utf-8')
         self.send_tuya(61, b64_payload)
@@ -143,10 +147,7 @@ class Device1D(Device):
             b (int): The blue value.
         """
         self.mode("colour")
-        h, s, v = colorsys.rgb_to_hsv(r / 255.0, g / 255.0, b / 255.0)
-        tuya_h = int(h * 360)
-        tuya_s = int(s * 1000)
-        tuya_v = int(v * 1000)
+        h, s, v = _RGB_to_HSV(r, g, b)
 
         payload = bytearray()
 
@@ -157,12 +158,12 @@ class Device1D(Device):
 
         payload.append(0x01)
 
-        payload.append((tuya_h >> 8) & 0xFF)
-        payload.append(tuya_h & 0xFF)
-        payload.append((tuya_s >> 8) & 0xFF)
-        payload.append(tuya_s & 0xFF)
-        payload.append((tuya_v >> 8) & 0xFF)
-        payload.append(tuya_v & 0xFF)
+        payload.append((h >> 8) & 0xFF)
+        payload.append(h & 0xFF)
+        payload.append((s >> 8) & 0xFF)
+        payload.append(s & 0xFF)
+        payload.append((v >> 8) & 0xFF)
+        payload.append(v & 0xFF)
 
         payload.append(0x80 | 1)
 
