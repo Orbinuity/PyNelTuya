@@ -1,7 +1,7 @@
 from pyneltuya.five.devices import Device1D
 from PIL import Image
 
-class SimpleMatrix:
+class Matrix:
     def __init__(self, device:Device1D, matrix:list[list[int]]):
         """
         Use matrix stuff on a 1D Device.
@@ -22,9 +22,9 @@ class SimpleMatrix:
         Args:
             pixel_data (list[list[tuple[int]]]): The matrix light structrue.
         """
-        for x in range(len(pixel_data)):
-            for y in range(len(pixel_data[x])):
-                c = pixel_data[x][y]
+        for y in range(len(pixel_data)):
+            for x in range(len(pixel_data[y])):
+                c = pixel_data[y][x]
                 self.set_pixel(x, y, c[0], c[1], c[2])
 
     def show_image(self, image_path:str):
@@ -50,7 +50,11 @@ class SimpleMatrix:
             g (int): The green color vlaue. (0-255)
             b (int): The blue color vlaue. (0-255)
         """
-        self._device.RGB_tile(self._matrix[x][y], r, g, b)
+        try:
+            if self._matrix[x][y]:
+                self._device.RGB_tile(self._matrix[x][y], r, g, b)
+        except (KeyError, TypeError):
+            print(f"Pixel {x}, {y} does not exist")
 
     def device(self) -> Device1D:
         """
@@ -61,7 +65,7 @@ class SimpleMatrix:
         """
         return self._device
 
-class SimpleMultiMatrix(SimpleMatrix):
+class MultiMatrix(Matrix):
     def __init__(self, devices:list[Device1D], matrix:list[list[tuple[int]]]):
         """
         Use matrix stuff on a 1D Device.
@@ -86,8 +90,12 @@ class SimpleMultiMatrix(SimpleMatrix):
             g (int): The green color vlaue. (0-255)
             b (int): The blue color vlaue. (0-255)
         """
-        pixel_data = self._matrix[x][y]
-        self.devices[pixel_data[0]].RGB_tile(pixel_data[1], r, g, b)
+        try:
+            if self._matrix[x][y]:
+                pixel_data = self._matrix[x][y]
+                self.devices[pixel_data[0]].RGB_tile(pixel_data[1], r, g, b)
+        except (KeyError, TypeError):
+            print(f"Pixel {x}, {y} does not exist")
 
     def device(self, index:int) -> Device1D:
         """
