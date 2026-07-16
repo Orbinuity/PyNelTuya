@@ -1,1 +1,1 @@
-from .matrices import SimpleMatrix, SimpleMultiMatrix
+from .matrices import Matrix, MultiMatrix
